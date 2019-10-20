@@ -2,11 +2,17 @@
 title: "project1"
 author: "Sophie Song"
 date: "10/16/2019"
-output: html_document
+output: 
+  github_document:
+    fig_width: 5
+    fig_height: 5
+    dev: jpeg
+  
+  
 ---
 
 ### Loading and preprocessing the data
-```{r global_options, include=TRUE}
+```{r global_options, echo=T, results='hide', message=F, warning=F}
 library(ggplot2)
 library(dplyr)
 library(plyr)
@@ -15,10 +21,14 @@ df <- read.csv("activity.csv") #read data
 
 ### Task1: What is mean total number of steps taken per day?
 ```{r}
-df1 <- df %>% filter(df$steps != "NA") %>% group_by(date) %>% dplyr::summarise(sum_step=sum(steps),mean_step=mean(steps),median_step=median(steps))#calculate the total number, the mean and the median of steps taken per day
-df1 # display the total number, the mean and the median of steps taken per day
+#calculate the total number, the mean and the median of steps taken per day
+df1 <- df %>% filter(df$steps != "NA") %>% group_by(date) %>% dplyr::summarise(sum_step=sum(steps),mean_step=mean(steps),median_step=median(steps))
 
-ggplot(df1,aes(x=sum_step))+geom_histogram(bins=20,fill="steelblue",color="white")+labs(title = "Histogram for the total No. of steps taken per  day")+theme(plot.title=element_text(hjust=0.5)) #draw histogram
+# display the total number, the mean and the median of steps taken per day
+df1 
+
+#draw histogram
+ggplot(df1,aes(x=sum_step))+geom_histogram(bins=20,fill="steelblue",color="white")+labs(title = "Histogram for the total No. of steps taken per  day")+theme(plot.title=element_text(hjust=0.5)) 
 
 
 ```
@@ -26,16 +36,23 @@ ggplot(df1,aes(x=sum_step))+geom_histogram(bins=20,fill="steelblue",color="white
   
 ### Task2: What is the average daily activity pattern?
 ```{r}
-df2 <- df %>% filter(df$steps != "NA") %>% group_by(interval) %>% dplyr::summarise(mean_step = mean(steps)) #tidy the data
-plot(mean_step~interval,data=df2,type="l") #draw the graph
-df2[which.max(df2$mean_step),] #Find Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps
+#tidy the data
+df2 <- df %>% filter(df$steps != "NA") %>% group_by(interval) %>% dplyr::summarise(mean_step = mean(steps)) 
+
+#draw the graph
+plot(mean_step~interval,data=df2,type="l") 
+
+#Find Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps
+df2[which.max(df2$mean_step),] 
 ```
 
   
 ### Task3: Imputing missing values
 ```{r}
 df3 <- df
-plyr::count(df[is.na(df$steps),]$steps) #calculate the total number of missing values
+
+#calculate the total number of missing values
+plyr::count(df[is.na(df$steps),]$steps) 
 
 #filling in all of the missing values in the dataset with the mean for that 5-minute interval
 for (i in 1:nrow(df3)) {
@@ -44,8 +61,12 @@ for (i in 1:nrow(df3)) {
   } 
 }
 
+#Create a new dataset that is equal to the original dataset but with the missing data filled in.
+head(df3)
+
 #Calculate the mean and median total number of steps taken per day
 df4 <- df3 %>% group_by(date) %>% dplyr::summarise(sum_step=sum(steps),mean_step=mean(steps),median_step=median(steps))
+
 #report the mean and median total number of steps taken per day
 df4
 
