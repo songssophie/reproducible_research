@@ -1,3 +1,8 @@
+project1
+================
+Sophie Song
+10/16/2019
+
 ### Loading and preprocessing the data
 
 ``` r
@@ -66,7 +71,7 @@ df1 # display the total number, the mean and the median of steps taken per day
 ggplot(df1,aes(x=sum_step))+geom_histogram(bins=20,fill="steelblue",color="white")+labs(title = "Histogram for the total No. of steps taken per  day")+theme(plot.title=element_text(hjust=0.5)) #draw histogram
 ```
 
-![](PA1_template_files/figure-markdown_github/unnamed-chunk-1-1.png)
+![](PA1_template_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
 
 ### Task2: What is the average daily activity pattern?
 
@@ -75,7 +80,7 @@ df2 <- df %>% filter(df$steps != "NA") %>% group_by(interval) %>% dplyr::summari
 plot(mean_step~interval,data=df2,type="l") #draw the graph
 ```
 
-![](PA1_template_files/figure-markdown_github/unnamed-chunk-2-1.png)
+![](PA1_template_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
 
 ``` r
 df2[which.max(df2$mean_step),] #Find Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps
@@ -130,7 +135,7 @@ df4
 ggplot(df4,aes(x=sum_step))+geom_histogram(bins=20,fill="steelblue",color="white")+labs(title = "Histogram for the total No. of steps taken per  day")+theme(plot.title=element_text(hjust=0.5))
 ```
 
-![](PA1_template_files/figure-markdown_github/unnamed-chunk-3-1.png)
+![](PA1_template_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
 ### Task 4: Are there differences in activity patterns between weekdays and weekends?
 
@@ -148,4 +153,4 @@ df6 <- df5 %>% group_by(interval,weekends_or_not) %>% dplyr::summarise(mean_step
 ggplot(df6,aes(x=interval,y=mean_step))+geom_line()+facet_grid(weekends_or_not~.)
 ```
 
-![](PA1_template_files/figure-markdown_github/unnamed-chunk-4-1.png)
+![](PA1_template_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
